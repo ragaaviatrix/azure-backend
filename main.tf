@@ -1,3 +1,23 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 2.8.0"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.0"
+    }
+    null = {
+      source = "hashicorp/null"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
 # Generate a random storage name
 resource "random_string" "tf-name" {
   length  = 8
@@ -8,7 +28,7 @@ resource "random_string" "tf-name" {
 }
 # Create a Resource Group for the Terraform State File
 resource "azurerm_resource_group" "state-rg" {
-  name     = "${lower(var.company)}-tfstate-rg"
+  name     = "azweu-avia-deploy-resources"
   location = var.location
   lifecycle {
     prevent_destroy = true
@@ -21,7 +41,7 @@ resource "azurerm_resource_group" "state-rg" {
 resource "azurerm_storage_account" "state-sta" {
   depends_on = [azurerm_resource_group.state-rg]
 
-  name                      = "${lower(var.company)}tf${random_string.tf-name.result}"
+  name                      = "azweuaviadeploystg"
   resource_group_name       = azurerm_resource_group.state-rg.name
   location                  = azurerm_resource_group.state-rg.location
   account_kind              = "StorageV2"
