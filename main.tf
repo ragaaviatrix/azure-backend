@@ -49,7 +49,7 @@ resource "azurerm_storage_account" "state-sta" {
   access_tier               = "Hot"
   account_replication_type  = "ZRS"
   enable_https_traffic_only = true
-
+  min_tls_version           = "TLS1_2"
   lifecycle {
     prevent_destroy = true
   }
